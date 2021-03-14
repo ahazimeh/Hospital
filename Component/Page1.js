@@ -18,7 +18,12 @@ import RadioForm, {
   RadioButtonInput,
   RadioButtonLabel,
 } from "react-native-simple-radio-button";
-import { MapView, Permission } from "expo";
+// import { Location } from "expo";
+import * as Permissions from "expo-permissions";
+// import { MapView, Permission } from "expo";
+import * as Location from "expo-location";
+import { PROVIDER_GOOGLE } from "expo";
+import MapView, { Marker, Callout, CalloutSubview } from "react-native-maps";
 var hobbies = [
   { label: "Male", value: 0 },
   { label: "Female", value: 1 },
@@ -27,49 +32,68 @@ var hobbies = [
 class Page1 extends Component {
   constructor(props) {
     super(props);
-    this.state = { gender: -1, bloodType: 0 };
+    this.state = {
+      gender: -1,
+      bloodType: 0,
+
+      marker: null,
+      map: true,
+    };
   }
   updateBloodType = (e) => {
     this.setState({ bloodType: e });
   };
+  _getLocation = async () => {
+    const { status } = await Location.requestPermissionsAsync();
+    if (status !== "granted") {
+      alert("a");
+    } else {
+      let location = await Location.getCurrentPositionAsync({});
+      console.log(location.coords);
+      this.setState({ marker: location.coords });
+    }
+  };
+  componentDidMount() {
+    this._getLocation();
+  }
   render() {
-    // TextInput.defaultProps.selectionColor = "red";
     return (
-      <View style={{ flex: 1, backgroundColor: "white" }}>
-        {/* <TouchableOpacity
-          title="EmployeeList "
-          onPress={() =>
-            this.props.navigation.navigate("page2", {
-              data: "a",
-            })
-          }
-        >
-          <Text>Employee List </Text>
-        </TouchableOpacity> */}
-        <Text>Personal Details</Text>
-        {/* <TextInput editable maxLength={40} /> */}
+      <ScrollView style={{ flex: 1, backgroundColor: "white" }}>
+        <Text style={{ marginLeft: "4%" }}>Personal Details</Text>
         <View style={styles.name}>
           <TextInput
-            // selectionColor={"red"}
             tintColor={"red"}
             style={styles.input}
             placeholder="  First Name"
           />
           <TextInput
-            // selectionColor={"red"}
             tintColor={"red"}
             style={styles.input}
             placeholder="  Last Name"
           />
         </View>
-        {/* <RadioForm
-          buttonInnerColor={"#e74c3c"}
-          style={styles.radio}
-          radio_props={hobbies}
-          initial={-1}
-          onPress={(value) => {}}
-          formHorizontal={true}
-        /> */}
+        <View style={styles.name}>
+          <TextInput
+            tintColor={"red"}
+            style={styles.input1}
+            placeholder="  Phone Number"
+          />
+        </View>
+        <View style={styles.name}>
+          <TextInput
+            tintColor={"red"}
+            style={styles.input1}
+            placeholder="  Email"
+          />
+        </View>
+        <View style={styles.name}>
+          <TextInput
+            secureTextEntry={true}
+            tintColor={"red"}
+            style={styles.password}
+            placeholder="  Password"
+          />
+        </View>
         <RadioForm
           style={styles.form}
           formHorizontal={true}
@@ -88,8 +112,6 @@ class Page1 extends Component {
               borderWidth={3}
               buttonInnerColor={"red"}
               buttonOuterColor={"red"}
-              //   buttonSize={40}
-              //   buttonOuterSize={80}
               buttonWrapStyle={{ marginLeft: 10 }}
             >
               <RadioButtonLabel
@@ -113,8 +135,6 @@ class Page1 extends Component {
               borderWidth={3}
               buttonInnerColor={"red"}
               buttonOuterColor={"red"}
-              //   buttonSize={40}
-              //   buttonOuterSize={80}
               buttonWrapStyle={{ marginLeft: 10 }}
             >
               <RadioButtonLabel
@@ -128,8 +148,8 @@ class Page1 extends Component {
             <Text style={styles.label}>Female</Text>
           </RadioButton>
         </RadioForm>
-        {/* <Picker selectedValue = {this.state.user} onValueChange = {this.updateUser}> */}
         <Picker
+          style={{ marginLeft: "2%" }}
           selectedValue={this.state.bloodType}
           onValueChange={this.updateBloodType}
         >
@@ -142,7 +162,44 @@ class Page1 extends Component {
           <Picker.Item label="B+" value="6" />
           <Picker.Item label="B+" value="7" />
         </Picker>
-      </View>
+
+        {this.state.marker != null && this.state.map ? (
+          <MapView
+            onPress={(e) => this.setState({ marker: e.nativeEvent.coordinate })}
+            style={{ flex: 1, height: 450, maxHeight: 450 }}
+            initialRegion={{
+              latitude: this.state.marker.latitude,
+              longitude: this.state.marker.longitude,
+              latitudeDelta: this.state.marker.latitude,
+              longitudeDelta: this.state.marker.longitude,
+            }}
+          >
+            <MapView.Marker
+              coordinate={{
+                latitude: this.state.marker.latitude,
+                longitude: this.state.marker.longitude,
+              }}
+              title={"myTitle"}
+              description={"myDescription"}
+              pinColor={"blue"}
+              onCalloutPress={() => alert("Clicked")}
+            >
+              <MapView.Callout>
+                <View>
+                  <Text>Click Me!</Text>
+                </View>
+              </MapView.Callout>
+            </MapView.Marker>
+          </MapView>
+        ) : (
+          <Text></Text>
+        )}
+        <Button
+          title="Register"
+          color="red"
+          onPress={() => this.props.navigation.navigate("page2")}
+        />
+      </ScrollView>
     );
   }
 }
@@ -159,12 +216,29 @@ const styles = StyleSheet.create({
     backgroundColor: "#D3D3D3",
     width: "46%",
     height: 40,
-    margin: 2,
+    margin: "1%",
+  },
+  input1: {
+    backgroundColor: "#D3D3D3",
+    width: "94%",
+    height: 40,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+  password: {
+    backgroundColor: "#D3D3D3",
+    width: "94%",
+    height: 40,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
   },
   name: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "center",
+    marginTop: "1%",
   },
   radio: {
     // display: "flex",

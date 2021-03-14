@@ -6,6 +6,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Page1 from "./Component/Page1";
 import Page2 from "./Component/Page2";
+import Request from "./Component/MakeRequest";
 export default function App() {
   const Stack = createStackNavigator();
   const StackScreen = () => (
@@ -20,6 +21,9 @@ export default function App() {
       </Stack.Screen>
       <Stack.Screen name="page2">
         {(props) => <Page2 {...props} />}
+      </Stack.Screen>
+      <Stack.Screen name="request">
+        {(props) => <Request {...props} />}
       </Stack.Screen>
     </Stack.Navigator>
   );
