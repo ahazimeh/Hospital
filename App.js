@@ -7,6 +7,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Page1 from "./Component/Page1";
 import Page2 from "./Component/Page2";
 import Request from "./Component/MakeRequest";
+import NearbyRequests from "./Component/NearbyRequests";
+import KnowMore from "./Component/KnowMore";
 export default function App() {
   const Stack = createStackNavigator();
   const StackScreen = () => (
@@ -16,14 +18,20 @@ export default function App() {
         cardStyle: { backgroundColor: "#fff" },
       }}
     >
+      <Stack.Screen name="request">
+        {(props) => <Request {...props} />}
+      </Stack.Screen>
+      <Stack.Screen name="knowMore">
+        {(props) => <KnowMore {...props} />}
+      </Stack.Screen>
+      <Stack.Screen name="nearby">
+        {(props) => <NearbyRequests {...props} />}
+      </Stack.Screen>
       <Stack.Screen name="page1">
         {(props) => <Page1 {...props} />}
       </Stack.Screen>
       <Stack.Screen name="page2">
         {(props) => <Page2 {...props} />}
-      </Stack.Screen>
-      <Stack.Screen name="request">
-        {(props) => <Request {...props} />}
       </Stack.Screen>
     </Stack.Navigator>
   );
