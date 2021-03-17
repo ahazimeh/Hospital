@@ -74,7 +74,39 @@ class Page2 extends Component {
           <Text></Text>
         )}
         <ScrollView style={styles.requestList}>
-          <Text onPress={(e) => this.requestDetails("123")}>Request: O+</Text>
+          <Text
+            style={{
+              textAlign: "right",
+              marginRight: 10,
+            }}
+            onPress={() => this.props.navigation.navigate("knowMore")}
+          >
+            View More
+          </Text>
+          <View style={styles.req}>
+            <View style={styles.type}>
+              <Text style={{ color: "white", fontSize: 10 }}>Blood Type</Text>
+              <Text style={{ color: "white", fontSize: 20 }}>O+</Text>
+            </View>
+            <View style={{ marginLeft: 5 }}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <View>
+                  <Text style={{ fontWeight: "700", fontSize: 20 }}>
+                    Michael Farah
+                  </Text>
+                </View>
+              </View>
+              <View>
+                <Text>Hospital X</Text>
+              </View>
+            </View>
+          </View>
+          {/* <Text onPress={(e) => this.requestDetails("123")}>Request: O+</Text>
           <Text onPress={(e) => this.requestDetails("123")}>Request: O+</Text>
           <Text onPress={(e) => this.requestDetails("123")}>Request: O+</Text>
           <Text onPress={(e) => this.requestDetails("123")}>Request: O+</Text>
@@ -84,7 +116,7 @@ class Page2 extends Component {
           <Text onPress={(e) => this.requestDetails("123")}>Request: O+</Text>
 
           <Text onPress={(e) => this.requestDetails("123")}>Request: O+</Text>
-          <Text onPress={(e) => this.requestDetails("123")}>Request: O+</Text>
+          <Text onPress={(e) => this.requestDetails("123")}>Request: O+</Text> */}
         </ScrollView>
         <View style={styles.request}>
           <Text
@@ -112,6 +144,31 @@ const styles = StyleSheet.create({
     marginLeft: "4%",
     marginTop: 10,
     height: 100,
+  },
+  req: {
+    flexDirection: "row",
+    marginTop: 5,
+    width: "100%",
+  },
+  type: {
+    fontWeight: "bold",
+    fontSize: 20,
+    borderColor: "red",
+    borderWidth: 1,
+    backgroundColor: "red",
+    borderRadius: 5,
+    paddingTop: 2,
+    paddingBottom: 10,
+    paddingLeft: 5,
+    paddingRight: 5,
+    margin: 3,
+    color: "black",
+    margin: "auto",
+    textAlign: "center",
+    display: "flex",
+    justifyContent: "center",
+    flexDirection: "column",
+    alignItems: "center",
   },
 });
 

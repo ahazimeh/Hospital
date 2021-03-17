@@ -197,7 +197,9 @@ class Page1 extends Component {
         <Button
           title="Register"
           color="red"
-          onPress={() => this.props.navigation.navigate("page2")}
+          onPress={() =>
+            this.props.navigation.navigate("home", { screen: "home" })
+          }
         />
       </ScrollView>
     );

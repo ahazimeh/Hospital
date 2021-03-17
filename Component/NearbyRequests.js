@@ -29,7 +29,14 @@ class NearbyRequests extends Component {
         </View>
         <View style={{ marginLeft: 70, display: "flex", flexDirection: "row" }}>
           <Text> Share</Text>
-          <Text style={{ marginLeft: 30 }}>Know More</Text>
+          <Text
+            style={{ marginLeft: 30 }}
+            onPress={() =>
+              this.props.navigation.navigate("knowMore", { screen: "knowMore" })
+            }
+          >
+            Know More
+          </Text>
         </View>
         <View style={styles.req}>
           <View style={styles.type}>
@@ -45,7 +52,14 @@ class NearbyRequests extends Component {
         </View>
         <View style={{ marginLeft: 70, display: "flex", flexDirection: "row" }}>
           <Text> Share</Text>
-          <Text style={{ marginLeft: 30 }}>Know More</Text>
+          <Text
+            style={{ marginLeft: 30 }}
+            onPress={() =>
+              this.props.navigation.navigate("knowMore", { screen: "knowMore" })
+            }
+          >
+            Know More
+          </Text>
         </View>
       </ScrollView>
     );

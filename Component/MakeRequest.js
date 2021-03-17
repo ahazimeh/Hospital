@@ -44,7 +44,7 @@ class MakeRequest extends Component {
         );
     }
     return (
-      <View>
+      <ScrollView>
         <View style={styles.card}>
           <View style={styles.title}>
             <Text style={styles.titleText}>Personal Information</Text>
@@ -126,33 +126,113 @@ class MakeRequest extends Component {
               marginTop: 20,
             }}
           >
-            <View
-              style={{
-                borderWidth: 1,
-                padding: 12,
-                borderColor: "red",
-                borderRadius: 20,
-                width: 100,
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "center",
-              }}
-            >
-              <Text style={{ color: "red" }}>Male</Text>
+            {this.state.gender == 0 ? (
+              <View
+                style={{
+                  borderWidth: 1,
+                  padding: 12,
+                  borderColor: "red",
+                  borderRadius: 20,
+                  width: 100,
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  backgroundColor: "red",
+                }}
+              >
+                <Text style={{ color: "white" }}>Male</Text>
+              </View>
+            ) : (
+              <View
+                style={{
+                  borderWidth: 1,
+                  padding: 12,
+                  borderColor: "red",
+                  borderRadius: 20,
+                  width: 100,
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "center",
+                }}
+              >
+                <Text
+                  style={{ color: "red" }}
+                  onPress={(e) => this.setState({ gender: 0 })}
+                >
+                  Male
+                </Text>
+              </View>
+            )}
+            {this.state.gender == 1 ? (
+              <View
+                style={{
+                  borderWidth: 1,
+                  padding: 12,
+                  borderColor: "red",
+                  borderRadius: 20,
+                  width: 100,
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  backgroundColor: "red",
+                }}
+              >
+                <Text style={{ color: "white" }}>Female</Text>
+              </View>
+            ) : (
+              <View
+                style={{
+                  borderWidth: 1,
+                  padding: 12,
+                  borderColor: "red",
+                  borderRadius: 20,
+                  width: 100,
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "center",
+                }}
+                onPress={(e) => this.setState({ gender: 1 })}
+              >
+                <Text
+                  style={{ color: "red" }}
+                  onPress={(e) => this.setState({ gender: 1 })}
+                >
+                  Female
+                </Text>
+              </View>
+            )}
+          </View>
+        </View>
+        <View style={styles.card}>
+          <View style={styles.title}>
+            <Text style={styles.titleText}>Blood Type</Text>
+          </View>
+          <View
+            style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}
+          >
+            <View style={styles.bloodType}>
+              <Text>O+</Text>
             </View>
-            <View
-              style={{
-                borderWidth: 1,
-                padding: 12,
-                borderColor: "red",
-                borderRadius: 20,
-                width: 100,
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "center",
-              }}
-            >
-              <Text style={{ color: "red" }}>Female</Text>
+            <View style={styles.bloodType}>
+              <Text>O-</Text>
+            </View>
+            <View style={styles.bloodType}>
+              <Text>A+</Text>
+            </View>
+            <View style={styles.bloodType}>
+              <Text>A-</Text>
+            </View>
+            <View style={styles.bloodType}>
+              <Text>B+</Text>
+            </View>
+            <View style={styles.bloodType}>
+              <Text>B-</Text>
+            </View>
+            <View style={styles.bloodType}>
+              <Text>AB+</Text>
+            </View>
+            <View style={styles.bloodType}>
+              <Text>AB-</Text>
             </View>
           </View>
         </View>
@@ -221,7 +301,7 @@ class MakeRequest extends Component {
         <View style={styles.btn}>
           <Text style={styles.submit}>Submit</Text>
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }
@@ -327,6 +407,17 @@ const styles = StyleSheet.create({
   whiteText: {
     color: "white",
     fontSize: 18,
+  },
+  bloodType: {
+    borderWidth: 1,
+    padding: 12,
+    borderColor: "red",
+    borderRadius: 20,
+    width: 60,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    margin: 7,
   },
 });
 
