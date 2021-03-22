@@ -29,7 +29,7 @@ var hobbies = [
   { label: "Female", value: 1 },
   { label: "Other", value: 2 },
 ];
-class Page1 extends Component {
+class EditProfile extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -44,6 +44,8 @@ class Page1 extends Component {
       age: "",
       email: "",
       password: "",
+      userEmail: "",
+      userProfile: "",
     };
   }
   updateBloodType = (e) => {
@@ -55,7 +57,7 @@ class Page1 extends Component {
       alert("a");
     } else {
       let location = await Location.getCurrentPositionAsync({});
-      console.log(location.coords);
+      //   console.log(location.coords);
       this.setState({ marker: location.coords });
     }
   };
@@ -68,7 +70,37 @@ class Page1 extends Component {
     })
       .then((response) => response.text())
       .then((res) => {
+        // console.log(JSON.parse(res));
+      });
+    fetch("http://192.168.1.105:8000/api/user/", {
+      headers: {
+        Accept: "application/json",
+      },
+    })
+      .then((response) => response.text())
+      .then((res) => {
+        this.setState({ userEmail: JSON.parse(res) });
+        console.log("hi");
         console.log(JSON.parse(res));
+      });
+
+    fetch("http://192.168.1.105:8000/api/profile/1", {
+      headers: {
+        Accept: "application/json",
+      },
+    })
+      .then((response) => response.text())
+      .then((res) => {
+        this.setState({ userProfile: JSON.parse(res) });
+        console.log("hi");
+        console.log(JSON.parse(res));
+        this.setState({ first_name: JSON.parse(res).first_name });
+        this.setState({ last_name: JSON.parse(res).last_name });
+        this.setState({ phone: JSON.parse(res).phone_nb });
+        this.setState({ age: JSON.parse(res).age + "" });
+        this.setState({ email: JSON.parse(res).users.email });
+        this.setState({ bloodType: JSON.parse(res).blood_type.id });
+        this.setState({ gender: JSON.parse(res).gender });
       });
   }
   onChangeText = (name, e) => {
@@ -82,8 +114,8 @@ class Page1 extends Component {
     // alert(this.state.password);
     // alert(this.state.gender);
     // alert(this.state.bloodType);
-    alert(this.state.marker.latitude);
-    alert(this.state.marker.longitude);
+    // alert(this.state.marker.latitude);
+    // alert(this.state.marker.longitude);
     this.props.navigation.navigate("home", { screen: "home" });
   }
   render() {
@@ -96,12 +128,14 @@ class Page1 extends Component {
             style={styles.input}
             placeholder="  First Name"
             onChangeText={(text) => this.onChangeText("first_name", text)}
+            defaultValue={this.state.first_name}
           />
           <TextInput
             tintColor={"red"}
             style={styles.input}
             placeholder="  Last Name"
             onChangeText={(text) => this.onChangeText("last_name", text)}
+            defaultValue={this.state.last_name}
           />
         </View>
         <View style={styles.name}>
@@ -110,6 +144,7 @@ class Page1 extends Component {
             style={styles.input1}
             placeholder="  Phone Number"
             onChangeText={(text) => this.onChangeText("phone", text)}
+            defaultValue={this.state.phone}
           />
         </View>
         <View style={styles.name}>
@@ -118,6 +153,7 @@ class Page1 extends Component {
             style={[styles.input1, styles.marginT]}
             placeholder="  Age"
             onChangeText={(text) => this.onChangeText("age", text)}
+            defaultValue={this.state.age}
           />
         </View>
         <View style={styles.name}>
@@ -126,6 +162,7 @@ class Page1 extends Component {
             style={[styles.input1, styles.marginT]}
             placeholder="  Email"
             onChangeText={(text) => this.onChangeText("email", text)}
+            defaultValue={this.state.email}
           />
         </View>
         <View style={styles.name}>
@@ -193,17 +230,17 @@ class Page1 extends Component {
         </RadioForm>
         <Picker
           style={{ marginLeft: "2%" }}
-          selectedValue={this.state.bloodType}
+          selectedValue={this.state.bloodType + ""}
           onValueChange={this.updateBloodType}
         >
-          <Picker.Item label="O+" value="0" />
           <Picker.Item label="O-" value="1" />
-          <Picker.Item label="A+" value="2" />
+          <Picker.Item label="O+" value="2" />
           <Picker.Item label="A-" value="3" />
-          <Picker.Item label="AB+" value="4" />
-          <Picker.Item label="AB-" value="5" />
+          <Picker.Item label="A+" value="4" />
+          <Picker.Item label="B-" value="5" />
           <Picker.Item label="B+" value="6" />
-          <Picker.Item label="B+" value="7" />
+          <Picker.Item label="AB-" value="7" />
+          <Picker.Item label="AB+" value="8" />
         </Picker>
 
         {this.state.marker != null && this.state.map ? (
@@ -295,4 +332,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Page1;
+export default EditProfile;

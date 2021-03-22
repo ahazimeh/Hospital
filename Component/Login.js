@@ -15,10 +15,122 @@ class Login extends Component {
   render() {
     return (
       <View>
-        <Text>Test</Text>
+        <View style={styles.card}>
+          <View style={styles.title}>
+            <Text style={styles.titleText}>Login</Text>
+          </View>
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              flexWrap: "wrap",
+              marginTop: 50,
+            }}
+          >
+            <View
+              style={{
+                width: "80%",
+                marginLeft: "10%",
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+                height: 40,
+                borderRadius: 10,
+                marginTop: 20,
+              }}
+            >
+              <TextInput
+                tintColor={"red"}
+                style={styles.inputB}
+                placeholder="  Email"
+              />
+            </View>
+            <View
+              style={{
+                width: "80%",
+                marginLeft: "10%",
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+                height: 40,
+                borderRadius: 10,
+                marginTop: 20,
+              }}
+            >
+              <TextInput
+                tintColor={"red"}
+                style={styles.inputB}
+                placeholder="  Password"
+                secureTextEntry={true}
+              />
+            </View>
+            <View style={styles.redBtn}>
+              <Text style={styles.whiteText}>Login</Text>
+            </View>
+          </View>
+        </View>
       </View>
     );
   }
 }
+const styles = StyleSheet.create({
+  card: {
+    fontWeight: "bold",
+    fontSize: 20,
+    // borderColor: "black",
+    // borderWidth: 1,
+    padding: 5,
+    margin: 3,
+    color: "black",
+    width: "90%",
+    marginLeft: "5%",
+    borderRadius: 5,
 
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.15,
+    shadowRadius: 3.84,
+    elevation: 5,
+    height: 500,
+  },
+  title: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    marginTop: 40,
+  },
+  titleText: {
+    fontSize: 30,
+    fontWeight: "700",
+  },
+  inputB: {
+    width: "100%",
+    // marginLeft: "10%",
+    height: 40,
+    borderWidth: 1,
+    borderRadius: 3,
+    borderColor: "grey",
+  },
+  redBtn: {
+    backgroundColor: "red",
+    width: "80%",
+    marginLeft: "10%",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    height: 40,
+    borderRadius: 10,
+    marginTop: 20,
+  },
+  whiteText: {
+    color: "white",
+    fontSize: 18,
+  },
+});
 export default Login;

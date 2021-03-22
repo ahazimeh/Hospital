@@ -12,6 +12,25 @@ import {
   TouchableOpacity,
 } from "react-native";
 class KnowMore extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      requests: [],
+    };
+  }
+  componentDidMount() {
+    const { data } = this.props.route.params;
+    fetch("http://192.168.1.105:8000/api/request/" + data, {
+      headers: {
+        Accept: "application/json",
+      },
+    })
+      .then((response) => response.text())
+      .then((res) => {
+        this.setState({ requests: JSON.parse(res) });
+        console.log("hi", JSON.parse(res));
+      });
+  }
   render() {
     return (
       <View>
@@ -23,19 +42,33 @@ class KnowMore extends Component {
             </View>
             <View style={{ marginLeft: 5 }}>
               <Text style={{ fontWeight: "700", fontSize: 20 }}>
-                Michael Farah
+                {this.state.requests.first_name +
+                  " " +
+                  this.state.requests.last_name}
               </Text>
-              <Text>Hospital X</Text>
+              <Text>{this.state.requests.hospital}</Text>
             </View>
           </View>
           <View style={styles.cardBody}>
             <Text style={styles.cardDetails}>Published in </Text>
-            <Text style={styles.cardDetails}>Age:</Text>
-            <Text style={styles.cardDetails}>Gender:</Text>
-            <Text style={styles.cardDetails}>Reason of requesting:</Text>
+            <Text style={styles.cardDetails}>
+              Age: {this.state.requests.age}
+            </Text>
+            {this.state.requests.profile != undefined &&
+            this.state.requests.profile.gender == 0 ? (
+              <Text style={styles.cardDetails}>Gender: Male</Text>
+            ) : (
+              <Text style={styles.cardDetails}>Gender: Female</Text>
+            )}
+            <Text style={styles.cardDetails}>
+              Reason of requesting: {this.state.requests.reason}
+            </Text>
             {/* <View style={styles.donate}>
               <Text>Donate</Text>
             </View> */}
+            <View style={styles.donated}>
+              <Text style={{ color: "white" }}>I donated</Text>
+            </View>
             <View style={styles.share}>
               <Text>Share</Text>
             </View>
@@ -66,7 +99,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.15,
     shadowRadius: 3.84,
     elevation: 5,
-    height: 400,
+    height: 500,
   },
   cardBody: {
     marginLeft: 5,
@@ -120,8 +153,21 @@ const styles = StyleSheet.create({
     marginLeft: "20%",
     borderRadius: 20,
     borderWidth: 1,
+    marginTop: 40,
+    borderColor: "red",
+  },
+  donated: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    padding: 14,
+    width: "60%",
+    marginLeft: "20%",
+    borderRadius: 20,
+    borderWidth: 1,
     marginTop: 60,
     borderColor: "red",
+    backgroundColor: "red",
   },
 });
 export default KnowMore;

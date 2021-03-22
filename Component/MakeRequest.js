@@ -16,14 +16,48 @@ class MakeRequest extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      bloodTypes: [],
       units: 1,
       bloodType: 0,
       gender: -1,
+      first_name: "",
+      last_name: "",
+      phone: "",
+      age: "",
+      myBloodType: "",
     };
+  }
+  componentDidMount() {
+    fetch("http://192.168.1.105:8000/api/blood_types", {
+      headers: {
+        Accept: "application/json",
+      },
+    })
+      .then((response) => response.text())
+      .then((res) => {
+        this.setState({ bloodTypes: JSON.parse(res) });
+      });
+    fetch("http://192.168.1.105:8000/api/profile/1", {
+      headers: {
+        Accept: "application/json",
+      },
+    })
+      .then((response) => response.text())
+      .then((res) => {
+        this.setState({ myBloodType: JSON.parse(res).blood_type.type });
+        // console.log(JSON.parse(res).blood_type.type);
+      });
   }
   updateBloodType = (e) => {
     this.setState({ bloodType: e });
   };
+  onChangeText = (name, e) => {
+    alert(this.state.age);
+    this.setState({ [name]: e });
+  };
+  submit() {
+    alert("hi");
+  }
   render() {
     var unitNumbers = [];
     for (let i = 1; i < 10; i++) {
@@ -43,6 +77,7 @@ class MakeRequest extends Component {
           </Text>
         );
     }
+
     return (
       <ScrollView>
         <View style={styles.card}>
@@ -64,6 +99,7 @@ class MakeRequest extends Component {
               tintColor={"red"}
               style={styles.inputB}
               placeholder="  First Name"
+              onChangeText={(text) => this.onChangeText("first_name", text)}
             />
           </View>
           <View
@@ -78,6 +114,7 @@ class MakeRequest extends Component {
               tintColor={"red"}
               style={styles.inputB}
               placeholder="  Last Name"
+              onChangeText={(text) => this.onChangeText("last_name", text)}
             />
           </View>
           <View
@@ -92,6 +129,7 @@ class MakeRequest extends Component {
               tintColor={"red"}
               style={styles.inputB}
               placeholder="  Phone"
+              onChangeText={(text) => this.onChangeText("phone", text)}
             />
           </View>
           <View
@@ -106,6 +144,7 @@ class MakeRequest extends Component {
               tintColor={"red"}
               style={styles.inputB}
               placeholder="  Age"
+              onChangeText={(text) => this.onChangeText("age", text)}
             />
           </View>
           <View
@@ -204,108 +243,72 @@ class MakeRequest extends Component {
           </View>
         </View>
         <View style={styles.card}>
-          <View style={styles.title}>
+          <View style={[styles.title, styles.margin]}>
             <Text style={styles.titleText}>Blood Type</Text>
           </View>
+          <Text style={{ marginLeft: "4%" }}>Blood Request</Text>
+          <Text style={{ marginLeft: "4%" }}>
+            Which Blood Group are you looking for?
+          </Text>
+          <Text style={{ marginLeft: "4%" }}>Your Blood Group</Text>
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              marginLeft: "4%",
+            }}
+          >
+            <Text style={styles.box}>{this.state.myBloodType}</Text>
+          </View>
+          <Text style={{ marginLeft: "4%" }}>Select from Others</Text>
+
           <View
             style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}
           >
-            <View style={styles.bloodType}>
-              <Text>O+</Text>
-            </View>
-            <View style={styles.bloodType}>
-              <Text>O-</Text>
-            </View>
-            <View style={styles.bloodType}>
-              <Text>A+</Text>
-            </View>
-            <View style={styles.bloodType}>
-              <Text>A-</Text>
-            </View>
-            <View style={styles.bloodType}>
-              <Text>B+</Text>
-            </View>
-            <View style={styles.bloodType}>
-              <Text>B-</Text>
-            </View>
-            <View style={styles.bloodType}>
-              <Text>AB+</Text>
-            </View>
-            <View style={styles.bloodType}>
-              <Text>AB-</Text>
-            </View>
+            {this.state.bloodTypes.length > 0 &&
+              this.state.bloodTypes.map((data) =>
+                this.state.bloodType == data.id ? (
+                  <View>
+                    <View style={[styles.bloodType, styles.red]}>
+                      <Text
+                        style={{ color: "white" }}
+                        onPress={() => this.setState({ bloodType: data.id })}
+                      >
+                        {data.type}
+                      </Text>
+                    </View>
+                  </View>
+                ) : (
+                  <View>
+                    <View style={[styles.bloodType]}>
+                      <Text
+                        style={{ color: "red" }}
+                        onPress={() => this.setState({ bloodType: data.id })}
+                      >
+                        {data.type}
+                      </Text>
+                    </View>
+                  </View>
+                )
+              )}
           </View>
-        </View>
-
-        <Text style={{ marginLeft: "4%" }}>Blood Request</Text>
-        <Text style={{ marginLeft: "4%" }}>
-          Which Blood Group are you looking for?
-        </Text>
-        <Text style={{ marginLeft: "4%" }}>Your Blood Group</Text>
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            marginLeft: "4%",
-          }}
-        >
-          <Text style={styles.box}>O+</Text>
-        </View>
-        <Text style={{ marginLeft: "4%" }}>Select from Others</Text>
-        <Picker
-          style={{ marginLeft: "2%" }}
-          selectedValue={this.state.bloodType}
-          onValueChange={this.updateBloodType}
-        >
-          <Picker.Item label="O+" value="0" />
-          <Picker.Item label="O-" value="1" />
-          <Picker.Item label="A+" value="2" />
-          <Picker.Item label="A-" value="3" />
-          <Picker.Item label="AB+" value="4" />
-          <Picker.Item label="AB-" value="5" />
-          <Picker.Item label="B+" value="6" />
-          <Picker.Item label="B+" value="7" />
-        </Picker>
-
-        <Text style={{ marginLeft: "4%" }}>
-          How many Units of Blood you need?
-        </Text>
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            marginLeft: "4%",
-          }}
-        >
-          {unitNumbers}
-        </View>
-        <View style={styles.name}>
-          <TextInput
-            tintColor={"red"}
-            style={styles.input}
-            placeholder="  First Name"
-          />
-          <TextInput
-            tintColor={"red"}
-            style={styles.input}
-            placeholder="  Last Name"
-          />
-        </View>
-        <View style={styles.name}>
-          <TextInput
-            tintColor={"red"}
-            style={styles.input1}
-            placeholder="  Phone Number"
-          />
-        </View>
-        <View style={styles.btn}>
-          <Text style={styles.submit}>Submit</Text>
+          <View style={styles.btn}>
+            <Text style={styles.submit} onPress={(e) => this.submit()}>
+              Submit
+            </Text>
+          </View>
         </View>
       </ScrollView>
     );
   }
 }
 const styles = StyleSheet.create({
+  margin: {
+    marginTop: 20,
+  },
+  red: {
+    backgroundColor: "red",
+  },
   box: {
     fontWeight: "bold",
     fontSize: 20,

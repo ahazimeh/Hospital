@@ -21,6 +21,7 @@ class Page2 extends Component {
     this.state = {
       marker: null,
       map: true,
+      request: "",
     };
   }
   _getLocation = async () => {
@@ -35,11 +36,23 @@ class Page2 extends Component {
   };
   componentDidMount() {
     this._getLocation();
+    fetch("http://192.168.1.105:8000/api/request/1", {
+      headers: {
+        Accept: "application/json",
+      },
+    })
+      .then((response) => response.text())
+      .then((res) => {
+        console.log(JSON.parse(res));
+        this.setState({ request: JSON.parse(res) });
+        console.log(this.state.request.blood_type.type);
+      });
   }
   requestDetails = (e) => {
     alert(e);
   };
   render() {
+    let marker = this.state.marker;
     return (
       <ScrollView style={{ flex: 1, backgroundColor: "white" }}>
         {this.state.marker != null && this.state.map ? (
@@ -79,14 +92,24 @@ class Page2 extends Component {
               textAlign: "right",
               marginRight: 10,
             }}
-            onPress={() => this.props.navigation.navigate("knowMore")}
+            onPress={() =>
+              this.props.navigation.navigate("nearby", {
+                data: this.state.marker,
+              })
+            }
           >
             View More
           </Text>
           <View style={styles.req}>
             <View style={styles.type}>
               <Text style={{ color: "white", fontSize: 10 }}>Blood Type</Text>
-              <Text style={{ color: "white", fontSize: 20 }}>O+</Text>
+              {this.state.request != "" ? (
+                <Text style={{ color: "white", fontSize: 20 }}>
+                  {this.state.request.blood_type.type}
+                </Text>
+              ) : (
+                <Text></Text>
+              )}
             </View>
             <View style={{ marginLeft: 5 }}>
               <View
@@ -97,12 +120,14 @@ class Page2 extends Component {
               >
                 <View>
                   <Text style={{ fontWeight: "700", fontSize: 20 }}>
-                    Michael Farah
+                    {this.state.request.first_name +
+                      " " +
+                      this.state.request.last_name}
                   </Text>
                 </View>
               </View>
               <View>
-                <Text>Hospital X</Text>
+                <Text>{this.state.request.hospital}</Text>
               </View>
             </View>
           </View>
