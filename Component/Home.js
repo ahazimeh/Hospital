@@ -12,6 +12,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 class Home extends Component {
+
+
   render() {
     return (
       <View>
@@ -24,14 +26,14 @@ class Home extends Component {
           }}
         >
           <View style={styles.redBtn}>
-            <Text style={{ color: "white" }}>I Need Blood!</Text>
+            <TouchableOpacity style={{ color: "white" }}><Text>I Need Blood!</Text></TouchableOpacity>
           </View>
           <View style={styles.blueBtn}>
-            <Text style={{ color: "white" }}>Health Center</Text>
+            <TouchableOpacity style={{ color: "white" }}><Text style={{ color: "white" }}>Health Center</Text></TouchableOpacity>
           </View>
         </View>
         <View style={{ marginLeft: 30 }}>
-          <Text style={{ marginTop: 20 }}>For a healthy day</Text>
+          <Text style={{ textAlign:"center",fontWeight:"bold",fontSize:20,marginTop:40 }}>For a healthy day</Text>
         </View>
         <View
           style={{
@@ -42,7 +44,7 @@ class Home extends Component {
         >
           <View style={styles.card}>
             <Text style={{ marginTop: 20 }}>Heart Icon</Text>
-            <Text style={{ fontSize: 22, marginTop: 20 }}>
+            <Text style={{ fontSize: 22, marginTop: 20,width:250,textAlign:"center" }}>
               You are on a mission to save lives
             </Text>
             <View>
@@ -96,25 +98,23 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "center",
-    marginTop: 30,
+    marginTop: 100,
   },
   card: {
     fontWeight: "bold",
     fontSize: 20,
     padding: 5,
-    margin: 3,
+    marginTop: 40,
     color: "black",
     width: "90%",
-    // marginLeft: "5%",
     borderRadius: 20,
     borderWidth: 1,
-    height: 300,
+    height: 400,
     width: "84%",
     display: "flex",
     flexDirection: "column",
     justifyContent: "flex-start",
     alignItems: "center",
-    marginTop: 80,
   },
 });
 

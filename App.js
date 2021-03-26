@@ -22,31 +22,64 @@ export default function App() {
         cardStyle: { backgroundColor: "#fff" },
       }}
     >
-      <Stack.Screen name="EditProfile">
-        {(props) => <EditProfile {...props} />}
-      </Stack.Screen>
-      <Stack.Screen name="page1">
-        {(props) => <Page1 {...props} />}
-      </Stack.Screen>
-      <Stack.Screen name="page2">
-        {(props) => <Page2 {...props} />}
+
+      <Stack.Screen name="knowMore">
+        {(props) => <KnowMore {...props} />}
       </Stack.Screen>
 
-      <Stack.Screen name="login">
-        {(props) => <Login {...props} />}
-      </Stack.Screen>
-      <Stack.Screen name="home">{(props) => <Home {...props} />}</Stack.Screen>
+
 
       <Stack.Screen name="nearby">
         {(props) => <NearbyRequests {...props} />}
       </Stack.Screen>
 
+
+
       <Stack.Screen name="request">
         {(props) => <Request {...props} />}
       </Stack.Screen>
-      <Stack.Screen name="knowMore">
-        {(props) => <KnowMore {...props} />}
+
+
+
+
+      <Stack.Screen name="page1">
+        {(props) => <Page1 {...props} />}
       </Stack.Screen>
+
+
+
+
+      <Stack.Screen name="home">{(props) => <Home {...props} />}</Stack.Screen>
+
+
+
+      <Stack.Screen name="login">
+        {(props) => <Login {...props} />}
+      </Stack.Screen>
+
+
+
+      <Stack.Screen name="EditProfile">
+        {(props) => <EditProfile {...props} />}
+      </Stack.Screen>
+
+
+
+
+
+
+
+
+
+      <Stack.Screen name="page2">
+        {(props) => <Page2 {...props} />}
+      </Stack.Screen>
+
+
+
+
+
+
     </Stack.Navigator>
   );
   return (

@@ -44,6 +44,9 @@ class Login extends Component {
                 tintColor={"red"}
                 style={styles.inputB}
                 placeholder="  Email"
+                autoCapitalize="none"
+                type="email"
+                keyboardType="email-address"
               />
             </View>
             <View
@@ -65,10 +68,11 @@ class Login extends Component {
                 placeholder="  Password"
                 secureTextEntry={true}
               />
+
             </View>
-            <View style={styles.redBtn}>
+            <TouchableOpacity style={styles.redBtn}>
               <Text style={styles.whiteText}>Login</Text>
-            </View>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
@@ -79,15 +83,12 @@ const styles = StyleSheet.create({
   card: {
     fontWeight: "bold",
     fontSize: 20,
-    // borderColor: "black",
-    // borderWidth: 1,
     padding: 5,
     margin: 3,
     color: "black",
     width: "90%",
     marginLeft: "5%",
     borderRadius: 5,
-
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -96,7 +97,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.15,
     shadowRadius: 3.84,
     elevation: 5,
-    height: 500,
+    height: 600,
   },
   title: {
     display: "flex",
@@ -113,8 +114,9 @@ const styles = StyleSheet.create({
     // marginLeft: "10%",
     height: 40,
     borderWidth: 1,
-    borderRadius: 3,
+    borderRadius: 20,
     borderColor: "grey",
+    paddingLeft: 30
   },
   redBtn: {
     backgroundColor: "red",
@@ -126,7 +128,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     height: 40,
     borderRadius: 10,
-    marginTop: 20,
+    marginTop: 100,
+
   },
   whiteText: {
     color: "white",

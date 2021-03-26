@@ -129,6 +129,7 @@ class MakeRequest extends Component {
               tintColor={"red"}
               style={styles.inputB}
               placeholder="  Phone"
+              keyboardType="number-pad"
               onChangeText={(text) => this.onChangeText("phone", text)}
             />
           </View>
@@ -144,6 +145,7 @@ class MakeRequest extends Component {
               tintColor={"red"}
               style={styles.inputB}
               placeholder="  Age"
+              keyboardType="number-pad"
               onChangeText={(text) => this.onChangeText("age", text)}
             />
           </View>
@@ -155,7 +157,7 @@ class MakeRequest extends Component {
               marginTop: 20,
             }}
           >
-            <Text>Gender</Text>
+            <Text style={{ marginTop: 20, fontWeight: "bold", fontSize: 19, textAlign: "center" }}>Gender</Text>
           </View>
           <View
             style={{
@@ -176,7 +178,7 @@ class MakeRequest extends Component {
                   display: "flex",
                   flexDirection: "row",
                   justifyContent: "center",
-                  backgroundColor: "red",
+                  backgroundColor: "red"
                 }}
               >
                 <Text style={{ color: "white" }}>Male</Text>
@@ -242,15 +244,15 @@ class MakeRequest extends Component {
             )}
           </View>
         </View>
-        <View style={styles.card}>
+        <View style={styles.card1}>
           <View style={[styles.title, styles.margin]}>
             <Text style={styles.titleText}>Blood Type</Text>
           </View>
-          <Text style={{ marginLeft: "4%" }}>Blood Request</Text>
-          <Text style={{ marginLeft: "4%" }}>
+          <Text style={{ marginLeft: 30, marginTop: 40 }}>Blood Request</Text>
+          <Text style={{ marginLeft: 30, marginTop: 20 }}>
             Which Blood Group are you looking for?
           </Text>
-          <Text style={{ marginLeft: "4%" }}>Your Blood Group</Text>
+          <Text style={{ marginLeft: 30, marginTop: 20 }}>Your Blood Group</Text>
           <View
             style={{
               display: "flex",
@@ -260,7 +262,7 @@ class MakeRequest extends Component {
           >
             <Text style={styles.box}>{this.state.myBloodType}</Text>
           </View>
-          <Text style={{ marginLeft: "4%" }}>Select from Others</Text>
+          <Text style={{ marginLeft: 30, marginTop: 40 }}>Select from Others</Text>
 
           <View
             style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}
@@ -345,37 +347,37 @@ const styles = StyleSheet.create({
     width: "80%",
     height: 40,
     borderWidth: 1,
-    borderRadius: 3,
+    borderRadius: 25,
     borderColor: "grey",
+    paddingLeft: 35
   },
   btn: {
     backgroundColor: "red",
-    width: "94%",
-    marginLeft: "3%",
+    width: 200,
+    marginLeft: 50,
     marginTop: 20,
     height: 40,
     display: "flex",
-    alignItems: "center",
+    textAlign: "center",
     flexDirection: "column",
     justifyContent: "center",
     borderRadius: 50,
   },
   submit: {
-    // marginTop: 20,
     fontSize: 24,
+    textAlign: "center",
+    color: "white"
   },
   card: {
     fontWeight: "bold",
     fontSize: 20,
-    // borderColor: "black",
-    // borderWidth: 1,
     padding: 5,
     margin: 3,
     color: "black",
     width: "90%",
     marginLeft: "5%",
     borderRadius: 5,
-
+    textAlign: "center",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -384,7 +386,29 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.15,
     shadowRadius: 3.84,
     elevation: 5,
-    height: 500,
+    height: 600,
+    marginBottom:30
+  },
+  card1: {
+    fontWeight: "bold",
+    fontSize: 20,
+    padding: 5,
+    margin: 3,
+    color: "black",
+    width: "90%",
+    marginLeft: "5%",
+    borderRadius: 5,
+    textAlign: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.15,
+    shadowRadius: 3.84,
+    elevation: 5,
+    height: 450,
+    marginBottom:50
   },
   title: {
     display: "flex",
@@ -394,6 +418,7 @@ const styles = StyleSheet.create({
   titleText: {
     fontSize: 19,
     fontWeight: "700",
+    marginTop: 50
   },
   redBtn: {
     backgroundColor: "red",
@@ -405,7 +430,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     height: 40,
     borderRadius: 10,
-    marginTop: 20,
+    marginTop: 40,
   },
   whiteText: {
     color: "white",

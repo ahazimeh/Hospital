@@ -24,12 +24,15 @@ import * as Permissions from "expo-permissions";
 import * as Location from "expo-location";
 import { PROVIDER_GOOGLE } from "expo";
 import MapView, { Marker, Callout, CalloutSubview } from "react-native-maps";
+import PasswordInputText from 'react-native-hide-show-password-input';
+
+
 var hobbies = [
   { label: "Male", value: 0 },
   { label: "Female", value: 1 },
   { label: "Other", value: 2 },
 ];
-class Page1 extends Component {
+class EditProfile extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -44,6 +47,8 @@ class Page1 extends Component {
       age: "",
       email: "",
       password: "",
+      userEmail: "",
+      userProfile: "",
     };
   }
   updateBloodType = (e) => {
@@ -55,7 +60,7 @@ class Page1 extends Component {
       alert("a");
     } else {
       let location = await Location.getCurrentPositionAsync({});
-      console.log(location.coords);
+      //   console.log(location.coords);
       this.setState({ marker: location.coords });
     }
   };
@@ -68,82 +73,135 @@ class Page1 extends Component {
     })
       .then((response) => response.text())
       .then((res) => {
+        // console.log(JSON.parse(res));
+      });
+    fetch("http://192.168.1.105:8000/api/user/", {
+      headers: {
+        Accept: "application/json",
+      },
+    })
+      .then((response) => response.text())
+      .then((res) => {
+        this.setState({ userEmail: JSON.parse(res) });
+        console.log("hi");
         console.log(JSON.parse(res));
+      });
+
+    fetch("http://192.168.1.105:8000/api/profile/1", {
+      headers: {
+        Accept: "application/json",
+      },
+    })
+      .then((response) => response.text())
+      .then((res) => {
+        this.setState({ userProfile: JSON.parse(res) });
+        console.log("hi");
+        console.log(JSON.parse(res));
+        this.setState({ first_name: JSON.parse(res).first_name });
+        this.setState({ last_name: JSON.parse(res).last_name });
+        this.setState({ phone: JSON.parse(res).phone_nb });
+        this.setState({ age: JSON.parse(res).age + "" });
+        this.setState({ email: JSON.parse(res).users.email });
+        this.setState({ bloodType: JSON.parse(res).blood_type.id });
+        this.setState({ gender: JSON.parse(res).gender });
       });
   }
   onChangeText = (name, e) => {
     this.setState({ [name]: e });
   };
   submit() {
-    // alert(this.state.first_name);
-    // alert(this.state.last_name);
-    // alert(this.state.phone);
-    // alert(this.state.email);
-    // alert(this.state.password);
-    // alert(this.state.gender);
-    // alert(this.state.bloodType);
-    alert(this.state.marker.latitude);
-    alert(this.state.marker.longitude);
+
     this.props.navigation.navigate("home", { screen: "home" });
   }
   render() {
     return (
       <ScrollView style={{ flex: 1, backgroundColor: "white" }}>
-        <Text style={{ marginLeft: "4%" }}>Personal Details</Text>
-        <View style={styles.name}>
+        <Text style={{ textAlign: "center", fontWeight: "bold", fontSize: 20, marginTop: 30 }}>Personal Details</Text>
+        <View>
           <TextInput
-            tintColor={"red"}
-            style={styles.input}
-            placeholder="  First Name"
+            style={{ height: 40, borderColor: 'gray', borderBottomWidth: 2, marginTop: 40, marginRight: 35, marginLeft: 30 }}
             onChangeText={(text) => this.onChangeText("first_name", text)}
+            placeholder="  First Name"
+            required
+            autoCapitalize="none"
+            defaultValue={this.state.first_name}
           />
+        </View>
+
+
+        <View>
           <TextInput
-            tintColor={"red"}
-            style={styles.input}
-            placeholder="  Last Name"
+            style={{ height: 40, borderColor: 'gray', borderBottomWidth: 2, marginTop: 20, marginRight: 35, marginLeft: 30 }}
             onChangeText={(text) => this.onChangeText("last_name", text)}
+            placeholder="  Last Name"
+            required
+            autoCapitalize="none"
+            defaultValue={this.state.last_name}
           />
         </View>
-        <View style={styles.name}>
+
+
+        <View>
           <TextInput
-            tintColor={"red"}
-            style={styles.input1}
-            placeholder="  Phone Number"
+            style={{ height: 40, borderColor: 'gray', borderBottomWidth: 2, marginTop: 20, marginRight: 35, marginLeft: 30 }}
             onChangeText={(text) => this.onChangeText("phone", text)}
+            placeholder="  Phone Number"
+            required
+            autoCapitalize="none"
+            defaultValue={this.state.phone}
+            keyboardType="number-pad"
           />
         </View>
-        <View style={styles.name}>
+
+        <View>
           <TextInput
-            tintColor={"red"}
-            style={[styles.input1, styles.marginT]}
-            placeholder="  Age"
+            style={{ height: 40, borderColor: 'gray', borderBottomWidth: 2, marginTop: 20, marginRight: 35, marginLeft: 30 }}
             onChangeText={(text) => this.onChangeText("age", text)}
+            placeholder="  Age"
+            required
+            autoCapitalize="none"
+            defaultValue={this.state.age}
+            keyboardType="number-pad"
           />
         </View>
-        <View style={styles.name}>
+
+        <View>
           <TextInput
-            tintColor={"red"}
-            style={[styles.input1, styles.marginT]}
-            placeholder="  Email"
+            style={{ height: 40, borderColor: 'gray', borderBottomWidth: 2, marginTop: 20, marginRight: 35, marginLeft: 30 }}
             onChangeText={(text) => this.onChangeText("email", text)}
+            placeholder="  Email"
+            required
+            autoCapitalize="none"
+            defaultValue={this.state.email}
+            keyboardType="email-address"
+            type="email"
           />
         </View>
-        <View style={styles.name}>
-          <TextInput
-            secureTextEntry={true}
-            tintColor={"red"}
-            style={[styles.password, styles.marginT]}
+
+        <View>
+          <PasswordInputText
+            style={{ width: 300, marginLeft: 30 }}
+            label=''
+            lineWidth={2}
+            value={this.state.password}
+            required
             placeholder="  Password"
+            secureTextEntry={true}
             onChangeText={(text) => this.onChangeText("password", text)}
           />
         </View>
+
+
+
         <RadioForm
           style={styles.form}
           formHorizontal={true}
           animation={true}
           initial={1}
         >
-          <Text style={styles.label}>Gender:</Text>
+          <Text style={{ marginLeft: 20, marginTop: 35 }}>Gender:</Text>
+
+
           <RadioButton labelHorizontal={true} key={0}>
             <RadioButtonInput
               isSelected={this.state.gender === 0}
@@ -155,17 +213,22 @@ class Page1 extends Component {
               borderWidth={3}
               buttonInnerColor={"red"}
               buttonOuterColor={"red"}
-              buttonWrapStyle={{ marginLeft: 10 }}
+              buttonWrapStyle={{ marginLeft: 30, marginTop: 30 }}
             >
+
+
+
+
+
               <RadioButtonLabel
                 obj={hobbies[0]}
                 index={0}
                 labelHorizontal={true}
-                onPress={(value) => {}}
-                labelStyle={{ fontSize: 20, color: "green" }}
+                onPress={(value) => { }}
+                labelStyle={{ fontSize: 30, color: "green" }}
               />
             </RadioButtonInput>
-            <Text style={styles.label}>Male</Text>
+            <Text style={{ marginTop: 40, marginLeft: 20 }}>Male</Text>
           </RadioButton>
           <RadioButton labelHorizontal={true} key={1}>
             <RadioButtonInput
@@ -178,38 +241,41 @@ class Page1 extends Component {
               borderWidth={3}
               buttonInnerColor={"red"}
               buttonOuterColor={"red"}
-              buttonWrapStyle={{ marginLeft: 10 }}
+              buttonWrapStyle={{ marginLeft: 30, marginTop: 30 }}
             >
               <RadioButtonLabel
                 obj={hobbies[1]}
                 index={1}
                 labelHorizontal={true}
-                onPress={(value) => {}}
+                onPress={(value) => { }}
                 labelStyle={{ fontSize: 20, color: "green" }}
               />
             </RadioButtonInput>
-            <Text style={styles.label}>Female</Text>
+            <Text style={{ marginTop: 40, marginLeft: 20 }}>Female</Text>
           </RadioButton>
         </RadioForm>
+
+        <Text style={{ marginLeft: 30, marginTop: 50 }}>Blood Type</Text>
+
         <Picker
-          style={{ marginLeft: "2%" }}
-          selectedValue={this.state.bloodType}
+          style={{ marginLeft: 160, width: 180, marginTop: -35 }}
+          selectedValue={this.state.bloodType + ""}
           onValueChange={this.updateBloodType}
         >
-          <Picker.Item label="O+" value="0" />
           <Picker.Item label="O-" value="1" />
-          <Picker.Item label="A+" value="2" />
+          <Picker.Item label="O+" value="2" />
           <Picker.Item label="A-" value="3" />
-          <Picker.Item label="AB+" value="4" />
-          <Picker.Item label="AB-" value="5" />
+          <Picker.Item label="A+" value="4" />
+          <Picker.Item label="B-" value="5" />
           <Picker.Item label="B+" value="6" />
-          <Picker.Item label="B+" value="7" />
+          <Picker.Item label="AB-" value="7" />
+          <Picker.Item label="AB+" value="8" />
         </Picker>
 
         {this.state.marker != null && this.state.map ? (
           <MapView
             onPress={(e) => this.setState({ marker: e.nativeEvent.coordinate })}
-            style={{ flex: 1, height: 300, maxHeight: 450 }}
+            style={{ flex: 1, height: 300, maxHeight: 450, marginTop: 40, width: 300, marginLeft: 30 }}
             initialRegion={{
               latitude: this.state.marker.latitude,
               longitude: this.state.marker.longitude,
@@ -237,7 +303,10 @@ class Page1 extends Component {
         ) : (
           <Text></Text>
         )}
-        <Button title="Register" color="red" onPress={() => this.submit()} />
+        <View style={{ width: 300, marginLeft: 30, marginTop: 40, marginBottom: 30 }}>
+          <Button title="Register" color="red" onPress={() => this.submit()} />
+
+        </View>
       </ScrollView>
     );
   }
@@ -255,8 +324,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   input: {
-    backgroundColor: "#D3D3D3",
-    width: "46%",
+    width: "100%",
     height: 40,
     margin: "1%",
   },
@@ -295,4 +363,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Page1;
+export default EditProfile;
